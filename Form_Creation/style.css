@@ -1,27 +1,24 @@
-
-.flexCenter{
+.flexrow{
     display: flex;
+    flex-direction: row;
 }
-.formBox{
-    margin: 10px 350px ;   
+.flexcolumn{
+    display: flex;
+    flex-direction: column;
 }
-
-.flexone{
-    padding: 0 72px 4px 0;
+.flexbox{
+    width: 272px;
 }
-.flexone-extra1{
-    padding: 0 88px 4px 0;
+.flexbox2{
+    width: 536px;
 }
-.flexone-extra2{
-    padding: 0 138px 4px 0
-}
-.flexone-less{
-    padding: 0 0px 0 0;
+.aligncenter{
+    display: flex;
+    justify-content: center;
 }
 .input-box{
-    width: 220px; height: 20px;
+    width: 254px; 
 }
 .input-box-extra{
     width: 522px;
-    height: 20px;
-}
+} 
