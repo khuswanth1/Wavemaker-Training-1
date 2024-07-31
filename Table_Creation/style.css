@@ -1,0 +1,22 @@
+th, td {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid 
+
+  }
+
+  div{
+    text-align: center;
+  }
+  table{
+    border-collapse: collapse;
+  }
+  .algcenter{
+    text-align: center;
+  }
+  .tHeading{
+    margin-left: 33.3%;
+  }
+  .colpale{
+    background-color: rgba(146, 174, 186, 0.442);
+  }

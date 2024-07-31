@@ -1,0 +1,27 @@
+
+.flexCenter{
+    display: flex;
+}
+.formBox{
+    margin: 10px 350px ;   
+}
+
+.flexone{
+    padding: 0 72px 4px 0;
+}
+.flexone-extra1{
+    padding: 0 88px 4px 0;
+}
+.flexone-extra2{
+    padding: 0 138px 4px 0
+}
+.flexone-less{
+    padding: 0 0px 0 0;
+}
+.input-box{
+    width: 220px; height: 20px;
+}
+.input-box-extra{
+    width: 522px;
+    height: 20px;
+}
