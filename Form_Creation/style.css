@@ -1,16 +1,25 @@
 .flexrow{
     display: flex;
     flex-direction: row;
+    padding: 4px 1px 4px 1px;
+}
+.flexrow-reverse{
+    display: flex;
+    flex-direction: row-reverse;
+    width: 545px;
+    border-top: 2px rgba(0, 0, 0, 0.542) solid;
+    padding-top: 4px;
 }
 .flexcolumn{
     display: flex;
     flex-direction: column;
+    padding: 4px 1px 4px 1px;
 }
 .flexbox{
-    width: 272px;
+    width: 278px;
 }
 .flexbox2{
-    width: 536px;
+    width: 545px;
 }
 .aligncenter{
     display: flex;
@@ -19,6 +28,24 @@
 .input-box{
     width: 254px; 
 }
-.input-box-extra{
-    width: 522px;
-} 
+label {
+    padding-bottom: 4px;
+}
+.padding-box{
+    padding: 4px 8px 4px 8px;
+}
+.border-box-color{
+    border: 32px solid rgb( 67, 96,111 );
+    border-radius: 8px;
+}
+h1{
+    border-bottom: 2px rgba(0, 0, 0, 0.542) solid;
+    padding-bottom: 8px;
+}
+.fadegreen{
+    color: rgb(83,184,149);
+}
+.fadegreenwhite{
+    background-color: rgb(83,184,149);
+    color: white;
+}
