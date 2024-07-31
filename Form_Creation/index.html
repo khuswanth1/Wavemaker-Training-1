@@ -9,89 +9,107 @@
 </head>
 
 <body>
-    <div class="formBox">
-        <h1 class="aligcenter">Create Account</h1>
-        <div class="flexCenter">
-            <div class="flexone">
-                <label for="fName">First name*</label><br>
-                <input class="input-box" type="text" name="fName" id="fName">
-            </div>
-            <div>
-                <label for="lName"></label>Last name<br>
-                <input class="input-box" type="text" name="lName" id="lName">
-            </div>
-        </div>
-        <div class="flexone">
-                <label for="eMail">Email</label><br>
-                <input class="input-box-extra" type="eMail" width="100%" name="eMail" id="eMail">
-        </div>
-        <div class="flexCenter">
-            <div class="flexone">
-                <label for="password">Password*</label><br>
-                <input class="input-box" type="password" id="password">
-            </div>
-            <div>
-                <label for="cPassword"></label>Confirm Password*<br>
-                <input class="input-box" type="password" id="cPassword">
-            </div>
-        </div>
-        <div class="flexCenter">
-            <div class="flexone-extra1">
-                <lable>Gender</lable> <br>
-                <input type="radio" id="MALE" name="" value="MALE">
-                <label for="MALE">MALE</label>
-
-                <input type="radio" id="FEMALE" name="" value="CSS">
-                <label for="FEMALE">FEMALE</label>
-            </div>
-            <div>
-                <label>Hobbies</label> <br>
-                <input type="checkbox" id="music" name="music" value="1">
-                <label for="music">Music</label>
-                <input type="checkbox" id="sports" name="sports" value="2">
-                <label for="sports">Sports</label>
-                <input type="checkbox" id="travel" name="travel" value="3">
-                <label for="travel"> Travel</label>
-                <input type="checkbox" id="movies" name="movies" value="4">
-                <label for="movies">Movies</label>
-            </div>
-        </div>
-        <div class="flexCenter">
-            <div class="flexone-extra2">
-                <label for="emp">Source of Income</label><br>
-                <select name="emp" id="emp">
-                    <option value="Employed">Employed</option>
-                    <option value="Self Emp">Self Emp</option>
-                    <option value="Frelancer">Frelancer</option>
-                    <option value="Student">Student</option>
-                </select>
-            </div>
-            <div>
-                <label for="">Income</label> <br>
-                <input type="range" value="24" min="10" max="1000" oninput="this.nextElementSibling.value = this.value">
-                <output>10</output>K
-            </div>
-        </div>
-        <div class="flexCenter">
-            <div class="flexone-less">
-                <label for="">Upload Profile Picture</label><br>
-                <input type="file">
-            </div>
-            <div>
-                <label for="">Age</label><br>
-                <input type="text">
-            </div>
-        </div>
+    <form class="aligncenter" action="" style="border: 4px solid black;">
         <div>
+            <h1 class="aligncenter">Create Account</h1>
+            <div class="flexrow">
+                <div class="flexcolumn flexbox">
+                    <label for="fName">First Name*</label>
+                    <input class="input-box" type="text" name="fName" id="fName">
+                </div>
+                <div class="flexcolumn flexbox">
+                    <label for="lName"></label>Last name<br>
+                    <input class="input-box" type="text" name="lName" id="lName">
+                </div>
+            </div>
+            <div class="flexcolumn flexbox2">
+                <label for="eMail">Email</label>
+                <input class="" type="eMail" width="100%" name="eMail" id="eMail">
+            </div>
+            <div class="flexrow">
+                <div class="flexcolumn flexbox">
+                    <label for="password">Password*</label>
+                    <input class="input-box" type="password" id="password">
+                </div>
+                <div class="flexcolumn flexbox">
+                    <label for="cPassword">Confirm Password*</label>
+                    <input class="input-box" type="password" id="cPassword">
+                </div>
+            </div>
+            <div class="flexrow">
+                <div class="flexcolumn flexbox">
+                    <lable>Gender</lable>
+                    <div class="flexrow">
+                        <div class="flexrow">
+                            <input type="radio" id="MALE" name="" value="MALE">
+                            <label for="MALE">MALE</label>
+                        </div>
+                        <div class="flexrow">
+                            <input type="radio" id="FEMALE" name="" value="CSS">
+                            <label for="FEMALE">FEMALE</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flexcolumn flexbox">
+                    <label>Hobbies</label> 
+                    <div class="flexrow">
+                        <div>
+                            <input type="checkbox" id="music" name="music" value="1">
+                            <label for="music">Music</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="sports" name="sports" value="2">
+                            <label for="sports">Sports</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="travel" name="travel" value="3">
+                            <label for="travel"> Travel</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="movies" name="movies" value="4">
+                            <label for="movies">Movies</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flexrow">
+                <div class="flexcolumn flexbox">
+                    <label for="emp">Source of Income</label>
+                    <div>
+                        <select name="emp" id="emp">
+                            <option value="Employed">Employed</option>
+                            <option value="Self Emp">Self Emp</option>
+                            <option value="Frelancer">Frelancer</option>
+                            <option value="Student">Student</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flexcolumn flexbox">
+                    <label for="">Income</label>
+                    <div>
+                        <input type="range" value="24" min="10" max="1000" oninput="this.nextElementSibling.value = this.value">
+                        <output>10</output>K
+                    </div>
+                </div>
+            </div>
+            <div class="flexrow">
+                <div class="flexcolumn flexbox">
+                    <label for="">Upload Profile Picture</label>
+                    <input type="file">
+                </div>
+                <div class="flexcolumn flexbox">
+                    <label for="age">Age</label>
+                    <input class="input-box" type="text" id="age">
+                </div>
+            </div>
             <div>
-                <label for="Bio">Bio</label>
-                <br>
-                <textarea id="Bio" name="" rows="5" cols="54">
-
-                    </textarea>
+                <div class="flexcolumn flexbox2">
+                    <label for="Bio">Bio</label>
+                    <textarea id="Bio" name="" rows="5" cols="54"></textarea>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </body>
 
 </html>
