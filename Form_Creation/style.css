@@ -29,7 +29,10 @@
     width: 254px; 
 }
 label {
-    padding-bottom: 4px;
+    padding-bottom: 2px;
+}
+.rdog{
+    padding-bottom:2px ;
 }
 .padding-box{
     padding: 4px 8px 4px 8px;
@@ -48,4 +51,29 @@ h1{
 .fadegreenwhite{
     background-color: rgb(83,184,149);
     color: white;
+}
+@media (max-width: 768px) {
+    .flexrow, .flexrow-reverse {
+        flex-direction: column;
+        width: 99%;
+    }
+    h1{
+        text-align: center;
+    }
+    .flexbox, .flexbox2 {
+        width: 97%;
+    }
+    .phoneflexrow{
+        display: flex;
+        flex-direction: row;
+    }
+    .rdog{
+        padding-bottom: 4px;
+    }
+    .aligncenter {
+        flex-direction: column;
+    }
+    .input-box {
+        width: 100%; 
+    }
 }

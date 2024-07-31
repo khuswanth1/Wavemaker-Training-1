@@ -12,111 +12,111 @@
     <div class="border-box-color">
         <div class="padding-box">
             <h1 class="aligncenter">Create Account</h1>
-            <form  action="">
-                    <div class="flexrow">
-                        <div class="flexcolumn flexbox">
-                            <label for="fName" class="fadegreen">First Name*</label>
-                            <input class="input-box" type="text" name="fName" id="fName" placeholder="enter your first name">
-                        </div>
-                        <div class="flexcolumn flexbox">
-                            <label for="lName" class="fadegreen">Last Name</label>
-                            <input class="input-box" type="text" name="lName" id="lName" placeholder="enter your last name">
-                        </div>
+            <form action="">
+                <div class="flexrow">
+                    <div class="flexcolumn flexbox">
+                        <label for="fName" class="fadegreen">First Name*</label>
+                        <input class="input-box" type="text" name="fName" id="fName"
+                            placeholder="enter your first name">
                     </div>
-                    <div class="flexcolumn flexbox2">
-                        <label for="eMail" class="fadegreen">Email*</label>
-                        <input class="" type="eMail" width="100%" name="eMail" id="eMail" placeholder="enter your email">
+                    <div class="flexcolumn flexbox">
+                        <label for="lName" class="fadegreen">Last Name</label>
+                        <input class="input-box" type="text" name="lName" id="lName" placeholder="enter your last name">
                     </div>
-                    <div class="flexrow">
-                        <div class="flexcolumn flexbox">
-                            <label for="password" class="fadegreen">Password*</label>
-                            <input class="input-box" type="password" id="password" placeholder="enter your password">
-                        </div>
-                        <div class="flexcolumn flexbox">
-                            <label for="cpassword" class="fadegreen">Confirm Password*</label>
-                            <input class="input-box" type="password" id="cpassword" placeholder="enter your password again">
-                        </div>
+                </div>
+                <div class="flexcolumn flexbox2">
+                    <label for="eMail" class="fadegreen">Email*</label>
+                    <input class="" type="eMail" width="100%" name="eMail" id="eMail" placeholder="enter your email">
+                </div>
+                <div class="flexrow">
+                    <div class="flexcolumn flexbox">
+                        <label for="password" class="fadegreen">Password*</label>
+                        <input class="input-box" type="password" id="password" placeholder="enter your password">
                     </div>
-                    <div class="flexrow">
-                        <div class="flexcolumn flexbox">
-                            <lable class="fadegreen">Gender</lable>
-                            <div class="flexrow">
-                                <div class="flexrow">
-                                    <input type="radio" id="male" name="" value="male">
-                                    <label for="male">MALE</label>
-                                </div>
-                                <div class="flexrow">
-                                    <input type="radio" id="female" name="" value="css">
-                                    <label for="female">FEMALE</label>
-                                </div>
+                    <div class="flexcolumn flexbox">
+                        <label for="cpassword" class="fadegreen">Confirm Password*</label>
+                        <input class="input-box" type="password" id="cpassword" placeholder="enter your password again">
+                    </div>
+                </div>
+                <div class="flexrow">
+                    <div class="flexcolumn flexbox">
+                        <lable class="fadegreen">Gender</lable>
+                        <div class="flexrow">
+                            <div class="flexrow rdog phoneflexrow">
+                                <input type="radio" id="male" name="" value="male">
+                                <label for="male">MALE</label>
                             </div>
-                        </div>
-                        <div class="flexcolumn flexbox">
-                            <label class="fadegreen">Hobbies</label> 
-                            <div class="flexrow">
-                                <div>
-                                    <input type="checkbox" id="music" name="music" value="1">
-                                    <label for="music">Music</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="sports" name="sports" value="2">
-                                    <label for="sports">Sports</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="travel" name="travel" value="3">
-                                    <label for="travel"> Travel</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="movies" name="movies" value="4">
-                                    <label for="movies">Movies</label>
-                                </div>
+                            <div class="flexrow rdog phoneflexrow">
+                                <input type="radio" id="female" name="" value="css">
+                                <label for="female">FEMALE</label>
                             </div>
                         </div>
                     </div>
-                    <div class="flexrow">
-                        <div class="flexcolumn flexbox">
-                            <label for="emp" class="fadegreen">Source of Income</label>
+                    <div class="flexcolumn flexbox">
+                        <label class="fadegreen">Hobbies</label>
+                        <div class="flexrow">
                             <div>
-                                <select name="emp" id="emp">
-                                    <option value="Employed">Employed</option>
-                                    <option value="Self Emp">Self Emp</option>
-                                    <option value="Frelancer">Frelancer</option>
-                                    <option value="Student">Student</option>
-                                </select>
+                                <input type="checkbox" id="music" name="music" value="1">
+                                <label for="music">Music</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="sports" name="sports" value="2">
+                                <label for="sports">Sports</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="travel" name="travel" value="3">
+                                <label for="travel"> Travel</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="movies" name="movies" value="4">
+                                <label for="movies">Movies</label>
                             </div>
                         </div>
-                        <div class="flexcolumn flexbox">
-                            <label for="range" class="fadegreen">Income</label>
-                            <div class="flexrow">
-                                <input type="range" id="range" value="24" min="10" max="1000" oninput="this.nextElementSibling.value = this.value">
-                                <output>10</output>K
-                            </div>
+                    </div>
+                </div>
+                <div class="flexrow">
+                    <div class="flexcolumn flexbox">
+                        <label for="emp" class="fadegreen">Source of Income</label>
+                        <div>
+                            <select name="emp" id="emp">
+                                <option value="Employed">Employed</option>
+                                <option value="Self Emp">Self Emp</option>
+                                <option value="Frelancer">Frelancer</option>
+                                <option value="Student">Student</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="flexrow">
-                        <div class="flexcolumn flexbox">
-                            <label for="file" class="fadegreen">Upload Profile Picture</label>
-                            <input type="file">
-                        </div>
-                        <div class="flexcolumn flexbox">
-                            <label for="age" class="fadegreen">Age</label>
-                            <input class="input-box" type="text" id="age">
+                    <div class="flexcolumn flexbox">
+                        <label for="range" class="fadegreen">Income</label>
+                        <div class="flexrow">
+                            <input type="range" id="range" value="24" min="10" max="1000">
                         </div>
                     </div>
-                    <div>
-                        <div class="flexcolumn flexbox2">
-                            <label for="Bio" class="fadegreen">Bio</label>
-                            <textarea id="Bio" name="" rows="5" cols="54"></textarea>
-                        </div>
+                </div>
+                <div class="flexrow">
+                    <div class="flexcolumn flexbox">
+                        <label for="file" class="fadegreen">Upload Profile Picture</label>
+                        <input type="file">
                     </div>
-                    <div class="flexrow-reverse ">
+                    <div class="flexcolumn flexbox">
+                        <label for="age" class="fadegreen">Age</label>
+                        <input class="input-box" type="text" id="age">
+                    </div>
+                </div>
+                <div>
+                    <div class="flexcolumn flexbox2">
+                        <label for="Bio" class="fadegreen">Bio</label>
+                        <textarea id="Bio" name="" rows="5" cols="54"></textarea>
+                    </div>
+                </div>
+                <div class="flexrow-reverse ">
 
-                        <button class="padding-box fadegreenwhite" >Create</button>
-                    </div>
-                </form>
+                    <button class="padding-box fadegreenwhite">Create</button>
+                </div>
+            </form>
 
         </div>
     </div>
-    </body>
+</body>
 
 </html>
