@@ -1,0 +1,37 @@
+.calculator {
+    width: 320px;
+    margin: 20px auto;
+}
+.display {
+    height: 50px;
+    text-align: right;
+    margin-bottom: 10px;
+    font-size: 24px;
+    padding: 5px 10px;
+}
+.button-row {
+    margin-bottom: 5px;
+}
+.button-widthless{
+    width: 238px;
+}
+.button-heightextra{
+    height: 200px;
+}
+.button{
+    background-color: rgba(134, 134, 244, 0.299);
+    padding: 8px;
+    margin: 6px;
+}
+.row1sub{
+    display: flex;
+    flex-direction: row;
+}
+.col1sub{
+    display: flex;
+    flex-direction: column;
+}
+.row2sub{
+    display: flex;
+    flex-direction: row;
+}
