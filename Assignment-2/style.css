@@ -19,7 +19,7 @@
     width: 278px;
 }
 .flexbox2{
-    width: 545px;
+    width: 542px;
 }
 .aligncenter{
     display: flex;
@@ -27,15 +27,13 @@
 }
 .input-box{
     width: 254px; 
+    padding-top:2px
 }
 label {
-    padding-bottom: 2px;
-}
-.rdog{
-    padding-bottom:2px ;
+    
 }
 .padding-box{
-    padding: 4px 8px 4px 8px;
+    padding: 4px 8px 4px 22px;
 }
 .border-box-color{
     border: 32px solid rgb( 67, 96,111 );
@@ -67,9 +65,7 @@ h1{
         display: flex;
         flex-direction: row;
     }
-    .rdog{
-        padding-bottom: 4px;
-    }
+
     .aligncenter {
         flex-direction: column;
     }
