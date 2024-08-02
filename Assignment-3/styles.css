@@ -1,5 +1,5 @@
 .calculator {
-    width: 320px;
+    width: 400px;
     margin: 20px auto;
 }
 .display {
@@ -19,9 +19,8 @@
     height: 200px;
 }
 .button{
-    background-color: rgba(134, 134, 244, 0.299);
-    padding: 8px;
-    margin: 6px;
+    background-color: rgba(134, 134, 244, 0.709);
+    border: 2px ;
 }
 .row1sub{
     display: flex;
@@ -34,4 +33,10 @@
 .row2sub{
     display: flex;
     flex-direction: row;
+}
+.btn{
+    background-color: rgba(134, 134, 244, 0.709);
+    padding: 8px;
+    border: 2px ;
+    /* margin-left:1px; */
 }
