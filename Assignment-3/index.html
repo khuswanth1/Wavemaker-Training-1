@@ -20,110 +20,111 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <input type="text" style="width: 310px;" class="d-flex justify-content-center" id="shw" readonly=""
-                                    value="">
+                                value="">
                             </div>
-
+                            
                             <div class="btns">
                                 <div class="row justify-content-center">
                                     <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">MC</button>
+                                        <button type="button" class="btn btn-secondary w-100"  onclick="memoryClear()">MC</button>
                                     </div>
                                     <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">MR</button>
+                                        <button type="button" class="btn btn-secondary w-100" onclick="memoryRecal()">MR</button>
                                     </div>
                                     <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">MS</button>
+                                        <button type="button" class="btn btn-secondary w-100" onclick="memoryStore()">MS</button>
                                     </div>
                                     <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">M+</button>
+                                        <button type="button" class="btn btn-secondary w-100" onclick="memoryInc()">M+</button>
                                     </div>
                                     <div class="col-md-2 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">M-</button>
+                                        <button type="button" class="btn btn-secondary w-100" onclick="memoryDec()">M-</button>
                                     </div>
                                 </div>
                                 <div class="row justify-content-center">
                                     <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100"><-</button></div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">CE</button>
+                                        <button type="button" class="btn btn-secondary w-100" onclick="backspace()"><-</button></div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="clearEntry()">CE</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="clearDisplay()">C</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" >±</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="calculateSqrt()">sqrt</button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">C</button>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="appendNumber('7')">7</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="appendNumber('8')">8</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="appendNumber('9')">9</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="setOperator('/')">/</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="calculatePercentage()">%</button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">±</button>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="appendNumber('4')">4</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="appendNumber('5')">5</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="appendNumber('6')">6</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="setOperator('*')">*</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <button type="button" class="btn btn-secondary w-100" onclick="calculateReciprocal()">1/x</button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">sqrt</button>
-                                    </div>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">7</button>
-                                    </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">8</button>
-                                    </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">9</button>
-                                    </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">/</button>
-                                    </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">%</button>
-                                    </div>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">4</button>
-                                    </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">5</button>
-                                    </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">6</button>
-                                    </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">*</button>
-                                    </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <button type="button" class="btn btn-secondary w-100">1/x</button>
-                                    </div>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-8">
-                                        <div class="row justify-content-center">
-                                            <div class="col-md-3 col-sm-12 p-1">
-                                                <button type="button" class="btn btn-secondary w-100 ">1</button>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-8">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-3 col-sm-12 p-1">
+                                                    <button type="button" class="btn btn-secondary w-100" onclick="appendNumber('1')">1</button>
+                                                </div>
+                                                <div class="col-md-3 col-sm-12 p-1">
+                                                    <button type="button" class="btn btn-secondary w-100" onclick="appendNumber('2')">2</button>
+                                                </div>
+                                                <div class="col-md-3 col-sm-12 p-1">
+                                                    <button type="button" class="btn btn-secondary w-100" onclick="appendNumber('3')">3</button>
+                                                </div>
+                                                <div class="col-md-3 col-sm-12 p-1">
+                                                    <button type="button" class="btn btn-secondary w-100" onclick="setOperator('-')">-</button>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12 p-1">
+                                                    <button type="button" class="btn btn-secondary w-100" onclick="appendNumber('0')">0</button>
+                                                </div>
+                                                <div class="col-md-3 col-sm-12 p-1">
+                                                    <button type="button" class="btn btn-secondary w-100" onclick="appendDecimal()">.</button>
+                                                </div>
+                                                <div class="col-md-3 col-sm-12 p-1">
+                                                    <button type="button" class="btn btn-secondary w-100" onclick="setOperator('+')">+</button>
+                                                </div>
                                             </div>
-                                            <div class="col-md-3 col-sm-12 p-1">
-                                                <button type="button" class="btn btn-secondary w-100 ">2</button>
-                                            </div>
-                                            <div class="col-md-3 col-sm-12 p-1">
-                                                <button type="button" class="btn btn-secondary w-100 ">3</button>
-                                            </div>
-                                            <div class="col-md-3 col-sm-12 p-1">
-                                                <button type="button" class="btn btn-secondary w-100 ">-</button>
-                                            </div>
-                                            <div class="col-md-6 col-sm-12 p-1">
-                                                <button type="button" class="btn btn-secondary w-100 ">0</button>
-                                            </div>
-                                            <div class="col-md-3 col-sm-12 p-1">
-                                                <button type="button" class="btn btn-secondary w-100 ">.</button>
-                                            </div>
-                                            <div class="col-md-3 col-sm-12 p-1">
-                                                <button type="button" class="btn btn-secondary w-100 ">+</button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 p-1">
+                                            <div class="col h-100 p-0">
+                                                <button type="button" class="btn btn-secondary w-100 h-100" onclick="calculateResult()">=</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2 col-sm-12 p-1">
-                                        <div class="col h-100 p-0">
-                                            <button type="button" class="btn btn-secondary w-100 h-100">=</button>
-                                        </div>
+                                    <div>
                                     </div>
-                                </div>
-                                <div>
                                 </div>
                             </div>
                         </div>
@@ -131,6 +132,7 @@
                 </div>
             </div>
         </div>
-    </div>
+        <script src="script.js"></script> 
 </body>
+
 </html>
