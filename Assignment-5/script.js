@@ -7,6 +7,8 @@ let editInput = document.getElementById("editInput");
 let cancelEditButton = document.getElementById("cancelEdit");
 let taskArr = [];
 let currentEditIndex = null;
+let searchField = document.getElementById("searchbox");
+let themeToggleButton = document.getElementById("themeToggle");
 
 function desktopcheck() {
     return window.innerWidth > 768;
@@ -133,6 +135,10 @@ window.onload = function loadAgain() {
         addToContainer(pendingTasks[i].task, pendingTasks[i].check);
     }
     inputField.focus();
+
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
 }
 
 addToDoButton.addEventListener('click', function () {
@@ -187,4 +193,27 @@ editDialog.querySelector('form').addEventListener('submit', function (e) {
 
 cancelEditButton.addEventListener('click', function () {
     editDialog.close();
+});
+
+searchField.addEventListener('input', function () {
+    let searchValue = searchField.value.toLowerCase().trim();
+    filterTasks(searchValue);
+});
+
+function filterTasks(searchValue) {
+    let tasks = document.querySelectorAll('.task-container');
+
+    tasks.forEach(task => {
+        let taskText = task.querySelector('.paragraph-styling').innerText.toLowerCase();
+        if (taskText.includes(searchValue)) {
+            task.style.display = '';
+        } else {
+            task.style.display = 'none';
+        }
+    });
+}
+
+themeToggleButton.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
 });

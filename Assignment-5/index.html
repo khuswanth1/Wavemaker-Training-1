@@ -14,9 +14,15 @@
 
     <div class="container">
         <h1>Todo List </h1>
-        <input type="text" id="inputbox" maxlength="20">
-        <button class="addButton" id="add">+</button>
-        <button class="removeButton" id="remall">&#128465;</button>
+        <div class="input-group">
+            <input type="text" id="inputbox" maxlength="20">
+            <button class="addButton" id="add">+</button>
+            <button class="removeButton" id="remall">&#128465;</button>
+        </div>
+        <div class="search-theme-group">
+            <input type="text" id="searchbox" placeholder="Search tasks...">
+            <button id="themeToggle">Toggle Theme</button>
+        </div>
         <div class="todos" id="todoscontainer">
         </div>
     </div>
