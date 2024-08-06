@@ -15,6 +15,7 @@ function desktopcheck() {
 function addToContainer(value, flag) {
     var taskContainer = document.createElement('div');
     taskContainer.classList.add('task-container');
+    taskContainer.setAttribute('draggable', true);
 
     var tickMark = document.createElement('span');
     var paragraph = document.createElement('span');
@@ -83,9 +84,43 @@ function addToContainer(value, flag) {
         localStorage.setItem("tasks", JSON.stringify(taskArr));
     });
 
+    taskContainer.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', taskArr.indexOf(obj));
+        taskContainer.classList.add('dragging');
+    });
+
+    taskContainer.addEventListener('dragend', () => {
+        taskContainer.classList.remove('dragging');
+    });
+
+    toDoContainer.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(toDoContainer, e.clientY);
+        const draggable = document.querySelector('.dragging');
+        if (afterElement == null) {
+            toDoContainer.appendChild(draggable);
+        } else {
+            toDoContainer.insertBefore(draggable, afterElement);
+        }
+    });
+
     if (flag) {
         tickMark.click();
     }
+}
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.task-container:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
 window.onload = function loadAgain() {
