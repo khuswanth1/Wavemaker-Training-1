@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./more_styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Todo List </h1>
+        <input type="text" id="inputbox" maxlength="20">
+        <button class="addButton" id="add">+</button>
+        <button class="removeButton" id="remall">&#128465;</button>
+        <div class="todos" id="todoscontainer">
+        </div>
+    </div>
+
+    <dialog id="editDialog">
+        <form method="dialog">
+            <label for="editInput">Edit Task:</label>
+            <input type="text" id="editInput">
+            <button type="submit">Save</button>
+            <button type="button" id="cancelEdit">Cancel</button>
+        </form>
+    </dialog>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
