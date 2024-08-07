@@ -4,11 +4,13 @@ let removeAll = document.getElementById("remall");
 let editDialog = document.getElementById("editDialog");
 let editInput = document.getElementById("editInput");
 let editDueDateInput = document.getElementById("editDueDateInput");
+let editDueTimeInput = document.getElementById("editDueTimeInput");
 let editPriorityInput = document.getElementById("editPriorityInput");
 let cancelEditButton = document.getElementById("cancelEdit");
 let addTaskDialog = document.getElementById("addTaskDialog");
 let taskInput = document.getElementById("taskInput");
 let dueDateInput = document.getElementById("dueDateInput");
+let dueTimeInput = document.getElementById("dueTimeInput");
 let priorityInput = document.getElementById("priorityInput");
 let saveTaskButton = document.getElementById("saveTask");
 let cancelTaskButton = document.getElementById("cancelTask");
@@ -39,7 +41,11 @@ function desktopcheck() {
     return window.innerWidth > 768;
 }
 
-function addToContainer(value, dueDate, priority, subtasks = [], flag) {
+function generateId() {
+    return '_' + Math.random().toString(36).substr(2, 9);
+}
+
+function addToContainer(value, dueDate, dueTime, priority, subtasks = [], flag, id = generateId()) {
     var taskContainer = document.createElement('div');
     taskContainer.classList.add('task-container');
     taskContainer.setAttribute('draggable', true);
@@ -58,9 +64,10 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
 
     paragraph.className = "paragraph-styling";
     paragraph.innerText = value;
+    paragraph.dataset.id = id;
 
     dueDateSpan.className = "due-date-styling";
-    dueDateSpan.innerText = `${dueDate}`;
+    dueDateSpan.innerText = `${dueDate} ${dueTime}`;
 
     tickMark.innerHTML = "✔";
     remove.innerHTML = "&#128465;";
@@ -93,8 +100,10 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
     toDoContainer.appendChild(taskContainer);
 
     let obj = {
+        id: id,
         task: value.trim(),
         dueDate: dueDate,
+        dueTime: dueTime,
         priority: priority,
         check: flag,
         subTasks: subtasks
@@ -113,25 +122,24 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
     paragraph.style.paddingLeft = "20px";
 
     tickMark.addEventListener('click', function () {
+        let taskIndex = taskArr.findIndex((e) => e.id === paragraph.dataset.id);
         if (paragraph.style.textDecoration === "line-through") {
             paragraph.style.textDecoration = "none";
             tickMark.innerHTML = "✔";
-            let index = taskArr.findIndex((e) => e.task === paragraph.innerText);
-            taskArr[index].check = false;
+            taskArr[taskIndex].check = false;
         } else {
             paragraph.style.textDecoration = "line-through";
             tickMark.innerHTML = "&#x238C";
-            let index = taskArr.findIndex((e) => e.task === paragraph.innerText);
-            taskArr[index].check = true;
+            taskArr[taskIndex].check = true;
         }
         saveToLocalStorage();
-        sortAndDisplayTasks();
     });
 
     edit.addEventListener('click', function () {
-        currentEditIndex = taskArr.findIndex((e) => e.task === paragraph.innerText);
+        currentEditIndex = taskArr.findIndex((e) => e.id === paragraph.dataset.id);
         editInput.value = paragraph.innerText;
         editDueDateInput.value = dueDate;
+        editDueTimeInput.value = dueTime;
         editPriorityInput.value = priority;
         editDialog.showModal();
     });
@@ -147,7 +155,7 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
     });
 
     addSubtask.addEventListener('click', function () {
-        currentTaskIndex = taskArr.findIndex((e) => e.task === paragraph.innerText);
+        currentTaskIndex = taskArr.findIndex((e) => e.id === paragraph.dataset.id);
         addSubtaskDialog.showModal();
     });
 
@@ -178,6 +186,8 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
     if (flag) {
         tickMark.click();
     }
+
+    scheduleReminder(obj);
 }
 
 function addSubtaskToContainer(subtasksContainer, subtaskText, isChecked) {
@@ -256,7 +266,7 @@ window.onload = function loadAgain() {
         removeAll.className = "removeMobile";
     }
     taskArr.forEach(task => {
-        addToContainer(task.task, task.dueDate, task.priority, task.subTasks, task.check);
+        addToContainer(task.task, task.dueDate, task.dueTime, task.priority, task.subTasks, task.check, task.id);
     });
 
     if (localStorage.getItem("theme") === "dark") {
@@ -271,21 +281,29 @@ addToDoButton.addEventListener('click', function () {
 saveTaskButton.addEventListener('click', function () {
     var taskValue = taskInput.value.trim();
     var dueDateValue = dueDateInput.value.trim();
+    var dueTimeValue = dueTimeInput.value.trim();
     var priorityValue = priorityInput.value;
 
-    if (taskValue === "" || dueDateValue === "" || priorityValue === "") {
+    if (taskValue === "" || dueDateValue === "" || dueTimeValue === "" || priorityValue === "") {
         alert("Please fill in all fields");
     } else {
-        let ind = taskArr.findIndex((a) => a.task === taskValue);
-        if (ind < 0) {
-            taskArr.push({ task: taskValue, dueDate: dueDateValue, priority: priorityValue, check: false, subTasks: [] });
-            saveToLocalStorage();
-            sortAndDisplayTasks();
-        } else {
-            alert("Task Already added");
-        }
+        const newTask = {
+            id: generateId(),
+            task: taskValue,
+            dueDate: dueDateValue,
+            dueTime: dueTimeValue,
+            priority: priorityValue,
+            check: false,
+            subTasks: []
+        };
+        taskArr.push(newTask);
+        saveToLocalStorage();
+        sortAndDisplayTasks();
+        scheduleReminder(newTask);
+        
         taskInput.value = "";
         dueDateInput.value = "";
+        dueTimeInput.value = "";
         priorityInput.value = "low";
         addTaskDialog.close();
     }
@@ -314,13 +332,16 @@ editDialog.querySelector('form').addEventListener('submit', function (e) {
     if (currentEditIndex !== null) {
         let newValue = editInput.value.trim();
         let newDueDate = editDueDateInput.value.trim();
+        let newDueTime = editDueTimeInput.value.trim();
         let newPriority = editPriorityInput.value;
-        if (newValue !== "" && newDueDate !== "" && newPriority !== "") {
+        if (newValue !== "" && newDueDate !== "" && newDueTime !== "" && newPriority !== "") {
             taskArr[currentEditIndex].task = newValue;
             taskArr[currentEditIndex].dueDate = newDueDate;
+            taskArr[currentEditIndex].dueTime = newDueTime;
             taskArr[currentEditIndex].priority = newPriority;
             saveToLocalStorage();
             sortAndDisplayTasks();
+            scheduleReminder(taskArr[currentEditIndex]);
         }
     }
     editDialog.close();
@@ -365,7 +386,7 @@ function sortAndDisplayTasks() {
     let priorityQueue = [...taskArr];
 
     if (filterType === 'date') {
-        priorityQueue.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+        priorityQueue.sort((a, b) => new Date(`${a.dueDate}T${a.dueTime}`) - new Date(`${b.dueDate}T${b.dueTime}`));
     } else if (filterType === 'priority') {
         const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
         priorityQueue.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
@@ -373,7 +394,7 @@ function sortAndDisplayTasks() {
 
     toDoContainer.innerHTML = "";
     priorityQueue.forEach(task => {
-        addToContainer(task.task, task.dueDate, task.priority, task.subTasks, task.check);
+        addToContainer(task.task, task.dueDate, task.dueTime, task.priority, task.subTasks, task.check, task.id);
     });
 }
 
@@ -429,6 +450,7 @@ importFileInput.addEventListener('change', (event) => {
                     taskArr = data;
                     saveToLocalStorage();
                     sortAndDisplayTasks();
+                    data.forEach(task => scheduleReminder(task));
                 } else {
                     alert('Invalid file format. Please upload a valid JSON file.');
                 }
@@ -441,3 +463,36 @@ importFileInput.addEventListener('change', (event) => {
         alert('Please upload a valid JSON file.');
     }
 });
+
+function scheduleReminder(task) {
+    const taskDateTime = new Date(`${task.dueDate}T${task.dueTime}`);
+    const now = new Date();
+    const timeToReminder = taskDateTime - now - 15 * 60 * 1000; 
+
+    if (timeToReminder > 0) {
+        setTimeout(() => {
+            showNotification(`Reminder: ${task.task} is due in 15 min`);
+        }, timeToReminder);
+    }
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.innerText = message;
+
+    const closeButton = document.createElement('span');
+    closeButton.className = 'close-button';
+    closeButton.innerText = '×';
+    closeButton.onclick = () => notification.remove();
+
+    notification.appendChild(closeButton);
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            notification.remove();
+        }, 500);
+    }, 15000); 
+}
