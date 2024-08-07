@@ -21,7 +21,15 @@ let filterDropdown = document.getElementById("filterDropdown");
 let themeToggleButton = document.getElementById("themeToggle");
 let taskArr = [];
 let currentEditIndex = null;
-let currentTaskIndex = null; // Track the index of the current task being edited
+let currentTaskIndex = null;
+
+function saveToLocalStorage() {
+    localStorage.setItem("tasks", JSON.stringify(taskArr));
+}
+
+function loadFromLocalStorage() {
+    taskArr = JSON.parse(localStorage.getItem("tasks")) || [];
+}
 
 function desktopcheck() {
     return window.innerWidth > 768;
@@ -66,7 +74,6 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
     taskContainer.appendChild(addSubtask);
     taskContainer.appendChild(subtasksContainer);
 
-    // Set priority-based color using CSS variables
     switch (priority) {
         case 'high':
             taskContainer.style.backgroundColor = 'var(--priority-high)';
@@ -85,10 +92,9 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
         task: value.trim(),
         dueDate: dueDate,
         priority: priority,
-        check: false,
+        check: flag,
         subTasks: subtasks
     };
-    taskArr.push(obj);
 
     tickMark.classList = "tick-styling";
     remove.classList = "remove-styling";
@@ -114,7 +120,7 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
             let index = taskArr.findIndex((e) => e.task === paragraph.innerText);
             taskArr[index].check = true;
         }
-        localStorage.setItem("tasks", JSON.stringify(taskArr));
+        saveToLocalStorage();
     });
 
     edit.addEventListener('click', function () {
@@ -132,7 +138,7 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
             taskArr.splice(currentEditIndex, 1);
             currentEditIndex = null;
         }
-        localStorage.setItem("tasks", JSON.stringify(taskArr));
+        saveToLocalStorage();
     });
 
     addSubtask.addEventListener('click', function () {
@@ -160,7 +166,6 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
         }
     });
 
-    // Add existing subtasks
     subtasks.forEach((subtask) => {
         addSubtaskToContainer(subtasksContainer, subtask.text, subtask.checked);
     });
@@ -213,7 +218,7 @@ function updateSubtaskStatus(subtaskText, taskIndex) {
     const subtaskIndex = taskArr[taskIndex].subTasks.findIndex(subtask => subtask.text === subtaskText);
     if (subtaskIndex >= 0) {
         taskArr[taskIndex].subTasks[subtaskIndex].checked = !taskArr[taskIndex].subTasks[subtaskIndex].checked;
-        localStorage.setItem("tasks", JSON.stringify(taskArr));
+        saveToLocalStorage();
     }
 }
 
@@ -221,7 +226,7 @@ function removeSubtask(subtaskText, taskIndex) {
     const subtaskIndex = taskArr[taskIndex].subTasks.findIndex(subtask => subtask.text === subtaskText);
     if (subtaskIndex >= 0) {
         taskArr[taskIndex].subTasks.splice(subtaskIndex, 1);
-        localStorage.setItem("tasks", JSON.stringify(taskArr));
+        saveToLocalStorage();
     }
 }
 
@@ -240,20 +245,14 @@ function getDragAfterElement(container, y) {
 }
 
 window.onload = function loadAgain() {
-    let pendingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    loadFromLocalStorage(); 
     if (!desktopcheck()) {
         addToDoButton.className = "addMobile";
         removeAll.className = "removeMobile";
     }
-    for (let i = 0; i < pendingTasks.length; i++) {
-        addToContainer(
-            pendingTasks[i].task,
-            pendingTasks[i].dueDate,
-            pendingTasks[i].priority,
-            pendingTasks[i].subTasks,
-            pendingTasks[i].check
-        );
-    }
+    taskArr.forEach(task => {
+        addToContainer(task.task, task.dueDate, task.priority, task.subTasks, task.check);
+    });
 
     if (localStorage.getItem("theme") === "dark") {
         document.body.classList.add("dark-mode");
@@ -274,7 +273,9 @@ saveTaskButton.addEventListener('click', function () {
     } else {
         let ind = taskArr.findIndex((a) => a.task === taskValue);
         if (ind < 0) {
-            addToContainer(taskValue, dueDateValue, priorityValue, [], false);
+            taskArr.push({ task: taskValue, dueDate: dueDateValue, priority: priorityValue, check: false, subTasks: [] });
+            saveToLocalStorage();
+            sortAndDisplayTasks(); 
         } else {
             alert("Task Already added");
         }
@@ -289,7 +290,7 @@ removeAll.addEventListener('click', function () {
     if (confirm("Remove all tasks?")) {
         toDoContainer.innerHTML = "";
         taskArr = [];
-        localStorage.setItem("tasks", JSON.stringify(taskArr));
+        saveToLocalStorage();
     }
 });
 
@@ -300,7 +301,7 @@ document.addEventListener('keypress', (e) => {
 });
 
 window.onbeforeunload = function () {
-    localStorage.setItem("tasks", JSON.stringify(taskArr));
+    saveToLocalStorage();
 }
 
 editDialog.querySelector('form').addEventListener('submit', function (e) {
@@ -313,25 +314,8 @@ editDialog.querySelector('form').addEventListener('submit', function (e) {
             taskArr[currentEditIndex].task = newValue;
             taskArr[currentEditIndex].dueDate = newDueDate;
             taskArr[currentEditIndex].priority = newPriority;
-            let taskContainer = toDoContainer.querySelector(`.task-container:nth-child(${currentEditIndex + 1})`);
-            if (taskContainer) {
-                taskContainer.querySelector('.paragraph-styling').innerText = newValue;
-                taskContainer.querySelector('.due-date-styling').innerText = `Due: ${newDueDate}`;
-
-                // Update the color based on the new priority using CSS variables
-                switch (newPriority) {
-                    case 'high':
-                        taskContainer.style.backgroundColor = 'var(--priority-high)';
-                        break;
-                    case 'medium':
-                        taskContainer.style.backgroundColor = 'var(--priority-medium)';
-                        break;
-                    case 'low':
-                        taskContainer.style.backgroundColor = 'var(--priority-low)';
-                        break;
-                }
-            }
-            localStorage.setItem("tasks", JSON.stringify(taskArr));
+            saveToLocalStorage();
+            sortAndDisplayTasks();
         }
     }
     editDialog.close();
@@ -350,11 +334,9 @@ saveSubtaskButton.addEventListener('click', function () {
     if (subtaskValue === "") {
         alert("Subtask cannot be empty");
     } else {
-        let taskContainer = toDoContainer.querySelector(`.task-container:nth-child(${currentTaskIndex + 1})`);
-        let subtasksContainer = taskContainer.querySelector('.subtasks');
-        addSubtaskToContainer(subtasksContainer, subtaskValue, false);
         taskArr[currentTaskIndex].subTasks.push({ text: subtaskValue, checked: false });
-        localStorage.setItem("tasks", JSON.stringify(taskArr));
+        saveToLocalStorage();
+        sortAndDisplayTasks(); 
         subtaskInput.value = "";
         addSubtaskDialog.close();
     }
@@ -370,29 +352,34 @@ searchField.addEventListener('input', function () {
 });
 
 filterDropdown.addEventListener('change', function () {
-    filterTasks(searchField.value.toLowerCase().trim());
+    sortAndDisplayTasks();
 });
+
+function sortAndDisplayTasks() {
+    const filterType = filterDropdown.value;
+    let priorityQueue = [...taskArr];
+
+    if (filterType === 'date') {
+        priorityQueue.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+    } else if (filterType === 'priority') {
+        const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
+        priorityQueue.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+    }
+
+    toDoContainer.innerHTML = ""; 
+    priorityQueue.forEach(task => {
+        addToContainer(task.task, task.dueDate, task.priority, task.subTasks, task.check);
+    });
+}
 
 function filterTasks(searchValue) {
     let tasks = document.querySelectorAll('.task-container');
-    let filterType = filterDropdown.value;
 
     tasks.forEach(task => {
         let taskText = task.querySelector('.paragraph-styling').innerText.toLowerCase();
-        let taskDate = task.querySelector('.due-date-styling').innerText.toLowerCase();
-        let taskPriorityColor = task.style.backgroundColor;
-
         let matchSearch = taskText.includes(searchValue);
 
-        let matchFilter = true;
-        if (filterType === "date") {
-            let today = new Date().toISOString().split('T')[0]; // Current date in YYYY-MM-DD format
-            matchFilter = taskDate.includes(today);
-        } else if (filterType === "priority") {
-            matchFilter = taskPriorityColor === 'var(--priority-high)';
-        }
-
-        if (matchSearch && matchFilter) {
+        if (matchSearch) {
             task.style.display = '';
         } else {
             task.style.display = 'none';
