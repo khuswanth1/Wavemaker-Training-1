@@ -7,32 +7,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="./more_styles.css">
 </head>
 
 <body>
-
+    
     <div class="container">
-        <h1>Todo List </h1>
+        <h1>Todo List</h1>
         <div class="input-group">
-            <input type="text" id="inputbox" maxlength="20">
-            <button class="addButton" id="add">+</button>
+            <button class="addButton" id="add">Add Task</button>
             <button class="removeButton" id="remall">&#128465;</button>
         </div>
         <div class="search-theme-group">
             <input type="text" id="searchbox" placeholder="Search tasks...">
+            <select id="filterDropdown">
+                <option value="all">All</option>
+                <option value="date">By Date</option>
+                <option value="priority">By Priority</option>
+            </select>
             <button id="themeToggle">Toggle Theme</button>
         </div>
         <div class="todos" id="todoscontainer">
         </div>
     </div>
 
+    <dialog id="addTaskDialog">
+        <form method="dialog">
+            <div class="form-group">
+                <label for="taskInput">Task:</label>
+                <input type="text" id="taskInput" maxlength="50" required>
+            </div>
+            <div class="form-group">
+                <label for="dueDateInput">Due Date:</label>
+                <input type="date" id="dueDateInput" required>
+            </div>
+            <div class="form-group">
+                <label for="priorityInput">Priority:</label>
+                <select id="priorityInput">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button type="button" id="saveTask">Save</button>
+                <button type="button" id="cancelTask">Cancel</button>
+            </div>
+        </form>
+    </dialog>
+
     <dialog id="editDialog">
         <form method="dialog">
-            <label for="editInput">Edit Task:</label>
-            <input type="text" id="editInput">
-            <button type="submit">Save</button>
-            <button type="button" id="cancelEdit">Cancel</button>
+            <div class="form-group">
+                <label for="editInput">Edit Task:</label>
+                <input type="text" id="editInput" maxlength="50" required>
+            </div>
+            <div class="form-group">
+                <label for="editDueDateInput">Edit Due Date:</label>
+                <input type="date" id="editDueDateInput" required>
+            </div>
+            <div class="form-group">
+                <label for="editPriorityInput">Edit Priority:</label>
+                <select id="editPriorityInput">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button type="submit">Save</button>
+                <button type="button" id="cancelEdit">Cancel</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="addSubtaskDialog">
+        <form method="dialog">
+            <div class="form-group">
+                <label for="subtaskInput">Subtask:</label>
+                <input type="text" id="subtaskInput" maxlength="50" required>
+            </div>
+            <div class="button-group">
+                <button type="button" id="saveSubtask">Save</button>
+                <button type="button" id="cancelSubtask">Cancel</button>
+            </div>
         </form>
     </dialog>
 
