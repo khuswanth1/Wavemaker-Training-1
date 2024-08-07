@@ -23,6 +23,10 @@ let taskArr = [];
 let currentEditIndex = null;
 let currentTaskIndex = null;
 
+let exportButton = document.getElementById("exportButton");
+let importButton = document.getElementById("importButton");
+let importFileInput = document.getElementById("importFileInput");
+
 function saveToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(taskArr));
 }
@@ -246,7 +250,7 @@ function getDragAfterElement(container, y) {
 }
 
 window.onload = function loadAgain() {
-    loadFromLocalStorage(); 
+    loadFromLocalStorage();
     if (!desktopcheck()) {
         addToDoButton.className = "addMobile";
         removeAll.className = "removeMobile";
@@ -276,7 +280,7 @@ saveTaskButton.addEventListener('click', function () {
         if (ind < 0) {
             taskArr.push({ task: taskValue, dueDate: dueDateValue, priority: priorityValue, check: false, subTasks: [] });
             saveToLocalStorage();
-            sortAndDisplayTasks(); 
+            sortAndDisplayTasks();
         } else {
             alert("Task Already added");
         }
@@ -337,7 +341,7 @@ saveSubtaskButton.addEventListener('click', function () {
     } else {
         taskArr[currentTaskIndex].subTasks.push({ text: subtaskValue, checked: false });
         saveToLocalStorage();
-        sortAndDisplayTasks(); 
+        sortAndDisplayTasks();
         subtaskInput.value = "";
         addSubtaskDialog.close();
     }
@@ -367,7 +371,7 @@ function sortAndDisplayTasks() {
         priorityQueue.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
     }
 
-    toDoContainer.innerHTML = ""; 
+    toDoContainer.innerHTML = "";
     priorityQueue.forEach(task => {
         addToContainer(task.task, task.dueDate, task.priority, task.subTasks, task.check);
     });
@@ -391,4 +395,49 @@ function filterTasks(searchValue) {
 themeToggleButton.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
     localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+});
+
+exportButton.addEventListener('click', () => {
+    exportToJSON();
+});
+
+function exportToJSON() {
+    const dataStr = JSON.stringify(taskArr, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'todoData.json';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+importButton.addEventListener('click', () => {
+    importFileInput.click();
+});
+
+importFileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file && file.type === 'application/json') {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                if (Array.isArray(data)) {
+                    taskArr = data;
+                    saveToLocalStorage();
+                    sortAndDisplayTasks();
+                } else {
+                    alert('Invalid file format. Please upload a valid JSON file.');
+                }
+            } catch (error) {
+                alert('Error parsing JSON file.');
+            }
+        };
+        reader.readAsText(file);
+    } else {
+        alert('Please upload a valid JSON file.');
+    }
 });

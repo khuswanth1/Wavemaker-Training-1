@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +10,14 @@
 
 <body>
     <div class="container">
-        <h1>To-do List </h1>
+        <div class="header-group">
+            <div class="button-group">
+                <h1>To-do List</h1>
+                <button id="exportButton">Export Tasks</button>
+                <button id="importButton">Import Tasks</button>
+                <input type="file" id="importFileInput" accept=".json" style="display: none;">
+            </div>
+        </div>
         <div class="input-group">
             <button class="addButton" id="add">Add Task</button>
             <button class="removeButton" id="remall">&#128465;</button>
@@ -94,5 +100,4 @@
 
     <script src="script.js"></script>
 </body>
-
 </html>

@@ -30,8 +30,7 @@ body.dark-mode {
 }
 
 h1 {
-  text-align: center;
-  margin: 15px;
+  margin: 0;
   color: var(--text-color-light);
   transition: color 0.3s;
 }
@@ -53,19 +52,29 @@ body.dark-mode .container {
   background-color: var(--container-background-dark);
 }
 
-.input-group, .search-theme-group {
+.header-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.input-group,
+.search-theme-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
 }
 
-input[type="text"], input[type="date"], select {
+input[type="text"],
+input[type="date"],
+select {
   width: 25%;
   height: 45px;
   border-radius: 5px;
   font-size: 16px;
-  padding-left: 40px;
+  padding-left: 22px;
   margin-right: 10px;
   border: none;
   transition: background-color 0.3s, color 0.3s;
@@ -75,8 +84,8 @@ input[type="text"]::placeholder {
   color: #999;
 }
 
-body.dark-mode input[type="text"], 
-body.dark-mode input[type="date"], 
+body.dark-mode input[type="text"],
+body.dark-mode input[type="date"],
 body.dark-mode select {
   background-color: #555;
   color: var(--text-color-dark);
@@ -105,7 +114,8 @@ body.dark-mode button:hover {
   background-color: var(--button-hover-dark);
 }
 
-.addButton, .removeButton {
+.addButton,
+.removeButton {
   width: 30%;
 }
 
@@ -152,12 +162,13 @@ body.dark-mode .task-container {
   margin-right: 10px;
 }
 
-body.dark-mode .subtasks, 
+body.dark-mode .subtasks,
 body.dark-mode .subtask-container {
   color: var(--text-color-dark);
 }
 
-.paragraph-styling, .due-date-styling {
+.paragraph-styling,
+.due-date-styling {
   flex: 1;
   margin: 0;
   padding-right: 10px;
@@ -166,7 +177,7 @@ body.dark-mode .subtask-container {
   transition: color 0.3s;
 }
 
-body.dark-mode .paragraph-styling, 
+body.dark-mode .paragraph-styling,
 body.dark-mode .due-date-styling {
   color: var(--text-color-dark);
 }
@@ -182,7 +193,7 @@ body.dark-mode .due-date-styling {
 }
 
 .add-subtask {
-  font-size: 16px; 
+  font-size: 16px;
   cursor: pointer;
   color: var(--button-background-light);
   margin-left: 50px;
@@ -245,8 +256,8 @@ body.dark-mode .form-group label {
   color: var(--text-color-dark);
 }
 
-.form-group input[type="text"], 
-.form-group input[type="date"], 
+.form-group input[type="text"],
+.form-group input[type="date"],
 .form-group select {
   width: 100%;
   padding: 10px;
@@ -258,8 +269,8 @@ body.dark-mode .form-group label {
   color: var(--text-color-light);
 }
 
-body.dark-mode .form-group input[type="text"], 
-body.dark-mode .form-group input[type="date"], 
+body.dark-mode .form-group input[type="text"],
+body.dark-mode .form-group input[type="date"],
 body.dark-mode .form-group select {
   background-color: #555;
   color: var(--text-color-dark);
