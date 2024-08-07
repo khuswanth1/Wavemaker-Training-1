@@ -106,7 +106,7 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
         edit.classList.toggle('edit-hover');
     }
 
-    paragraph.style.paddingLeft = "40px";
+    paragraph.style.paddingLeft = "20px";
 
     tickMark.addEventListener('click', function () {
         if (paragraph.style.textDecoration === "line-through") {
@@ -121,6 +121,7 @@ function addToContainer(value, dueDate, priority, subtasks = [], flag) {
             taskArr[index].check = true;
         }
         saveToLocalStorage();
+        sortAndDisplayTasks();
     });
 
     edit.addEventListener('click', function () {
