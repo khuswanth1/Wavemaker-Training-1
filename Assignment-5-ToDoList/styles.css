@@ -9,14 +9,20 @@
   --button-background-dark: #3b5998;
   --button-hover-light: #1765cc;
   --button-hover-dark: #29487d;
+  --priority-high: #ff6161;
+  --priority-medium: #80fbff;
+  --priority-low: #d6a5ca;
 }
 
 body {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 100vh;
+  margin: 0;
   background-color: var(--background-color-light);
   transition: background-color 0.3s;
+  font-family: Arial, sans-serif;
 }
 
 body.dark-mode {
@@ -35,12 +41,11 @@ body.dark-mode h1 {
 }
 
 .container {
-  height: auto;
   width: 500px;
   border-radius: 20px;
   background-color: var(--container-background-light);
-  margin: 20px;
   padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s;
 }
 
@@ -55,12 +60,13 @@ body.dark-mode .container {
   margin-bottom: 15px;
 }
 
-input[type="text"] {
-  width: 60%;
+input[type="text"], input[type="date"], select {
+  width: 25%;
   height: 45px;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 16px;
   padding-left: 10px;
+  margin-right: 10px;
   border: none;
   transition: background-color 0.3s, color 0.3s;
 }
@@ -69,7 +75,9 @@ input[type="text"]::placeholder {
   color: #999;
 }
 
-body.dark-mode input[type="text"] {
+body.dark-mode input[type="text"], 
+body.dark-mode input[type="date"], 
+body.dark-mode select {
   background-color: #555;
   color: var(--text-color-dark);
 }
@@ -77,7 +85,7 @@ body.dark-mode input[type="text"] {
 button {
   height: 45px;
   border: none;
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   background-color: var(--button-background-light);
   border-radius: 5px;
@@ -97,12 +105,8 @@ body.dark-mode button:hover {
   background-color: var(--button-hover-dark);
 }
 
-.addButton {
-  width: 15%;
-}
-
-.removeButton {
-  width: 15%;
+.addButton, .removeButton {
+  width: 30%;
 }
 
 #themeToggle {
@@ -113,27 +117,79 @@ body.dark-mode button:hover {
   margin: 25px 0;
 }
 
-.paragraph-styling {
+.task-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+}
+
+body.dark-mode .task-container {
+  background-color: #444;
+}
+
+.task-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subtasks {
+  margin-top: 10px;
+  padding-left: 20px;
+  width: 100%;
+}
+
+.subtask-container {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.subtask-container span {
+  margin-right: 10px;
+}
+
+body.dark-mode .subtasks, 
+body.dark-mode .subtask-container {
+  color: var(--text-color-dark);
+}
+
+.paragraph-styling, .due-date-styling {
+  flex: 1;
   margin: 0;
-  cursor: pointer;
-  font-size: 25px;
+  padding-right: 10px;
+  font-size: 18px;
   color: var(--text-color-light);
   transition: color 0.3s;
 }
 
-body.dark-mode .paragraph-styling {
+body.dark-mode .paragraph-styling, 
+body.dark-mode .due-date-styling {
   color: var(--text-color-dark);
 }
 
 .tick-styling,
 .remove-styling,
 .edit-styling {
-  display: block;
   width: 34px;
   font-size: 20px;
   text-align: center;
-  float: right;
+  cursor: pointer;
   transition: background-color 0.3s;
+}
+
+.add-subtask {
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--button-background-light);
+  margin-left: 10px;
+}
+
+.add-subtask:hover {
+  color: var(--button-hover-light);
 }
 
 .tick-hover:hover {
@@ -158,14 +214,15 @@ body.dark-mode .paragraph-styling {
   opacity: 0.5;
 }
 
+/* Styling for Dialog and Input Boxes */
 dialog {
   border: solid 1px #ccc;
   border-radius: 8px;
   padding: 20px;
   background-color: #fff;
-  width: 300px;
-  max-width: 300px;
-  max-height: 400px;
+  width: 350px;
+  max-width: 350px;
+  max-height: 500px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: fixed;
   top: 50%;
@@ -179,9 +236,61 @@ body.dark-mode dialog {
   background-color: #444;
 }
 
+dialog form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--text-color-light);
+}
+
+body.dark-mode .form-group label {
+  color: var(--text-color-dark);
+}
+
+.form-group input[type="text"], 
+.form-group input[type="date"], 
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: var(--container-background-light);
+  color: var(--text-color-light);
+}
+
+body.dark-mode .form-group input[type="text"], 
+body.dark-mode .form-group input[type="date"], 
+body.dark-mode .form-group select {
+  background-color: #555;
+  color: var(--text-color-dark);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 dialog button {
+  flex: 1;
   margin: 5px;
-  padding: 10px 20px;
+  padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
