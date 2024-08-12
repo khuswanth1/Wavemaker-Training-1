@@ -9,9 +9,9 @@
   --button-background-dark: #3b5998;
   --button-hover-light: #1765cc;
   --button-hover-dark: #29487d;
-  --priority-high: #ff6161;
-  --priority-medium: #80fbff;
-  --priority-low: #d6a5ca;
+  --high-priority-dark: #ED6663;
+  --medium-priority-dark: #FFA372;
+  --low-priority-dark: #9B9B9B;
 }
 
 body {
@@ -21,8 +21,8 @@ body {
   min-height: 100vh;
   margin: 0;
   background-color: var(--background-color-light);
-  transition: background-color 0.3s;
   font-family: Arial, sans-serif;
+  transition: background-color 0.3s;
 }
 
 body.dark-mode {
@@ -52,15 +52,7 @@ body.dark-mode .container {
   background-color: var(--container-background-dark);
 }
 
-.header-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.input-group,
-.search-theme-group {
+.input-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -80,12 +72,7 @@ select {
   transition: background-color 0.3s, color 0.3s;
 }
 
-input[type="text"]::placeholder {
-  color: #999;
-}
-
-body.dark-mode input[type="text"],
-body.dark-mode input[type="date"],
+body.dark-mode input,
 body.dark-mode select {
   background-color: #555;
   color: var(--text-color-dark);
@@ -95,6 +82,7 @@ button {
   height: 45px;
   border: none;
   font-size: 16px;
+  padding: 14px;
   color: white;
   background-color: var(--button-background-light);
   border-radius: 5px;
@@ -114,15 +102,6 @@ body.dark-mode button:hover {
   background-color: var(--button-hover-dark);
 }
 
-.addButton,
-.removeButton {
-  width: 30%;
-}
-
-#themeToggle {
-  width: 30%;
-}
-
 .todos {
   margin: 25px 0;
 }
@@ -140,56 +119,84 @@ body.dark-mode .task-container {
   background-color: #444;
 }
 
+.task-container.high {
+  background-color: #ff6161;
+}
+
+body.dark-mode .task-container.high {
+  background-color: var(--high-priority-dark);
+}
+
+.task-container.medium {
+  background-color: #80fbff;
+}
+
+body.dark-mode .task-container.medium {
+  background-color: var(--medium-priority-dark);
+}
+
+.task-container.low {
+  background-color: #d6a5ca;
+}
+
+body.dark-mode .task-container.low {
+  background-color: var(--low-priority-dark);
+}
+
 .task-main {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.subtasks {
-  margin-top: 10px;
-  padding-left: 32px;
-  width: 100%;
-}
-
-.subtask-container {
+.task-details {
   display: flex;
+  flex-grow: 1;
   align-items: center;
-  margin-top: 5px;
+  justify-content: space-between;
 }
 
-.subtask-container span {
-  margin-right: 10px;
-}
-
-body.dark-mode .subtasks,
-body.dark-mode .subtask-container {
-  color: var(--text-color-dark);
-}
-
-.paragraph-styling,
-.due-date-styling {
-  flex: 1;
-  margin: 0;
+.task-name {
+  flex-grow: 2;
   padding-right: 10px;
   font-size: 18px;
   color: var(--text-color-light);
   transition: color 0.3s;
 }
 
-body.dark-mode .paragraph-styling,
-body.dark-mode .due-date-styling {
+.due-date-time {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+body.dark-mode .task-name,
+body.dark-mode .due-date-time {
   color: var(--text-color-dark);
 }
 
-.tick-styling,
-.remove-styling,
-.edit-styling {
+.due-date-time div {
+  margin-left: 10px;
+  font-size: 16px;
+  color: var(--text-color-light);
+  transition: color 0.3s;
+}
+
+body.dark-mode .due-date-time div {
+  color: var(--text-color-dark);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.view-edit-delete {
   width: 34px;
   font-size: 20px;
   text-align: center;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .add-subtask {
@@ -199,29 +206,18 @@ body.dark-mode .due-date-styling {
   margin-left: 50px;
 }
 
-.draggable-task {
-  display: flex;
-  align-items: center;
-  cursor: move;
-}
-
-.dragging {
-  opacity: 0.5;
-}
-
 dialog {
   border: solid 1px #ccc;
   border-radius: 8px;
   padding: 20px;
   background-color: #fff;
   width: 350px;
-  max-width: 350px;
-  max-height: 500px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: fixed;
   top: 50%;
   left: 50%;
   right: 50%;
+  bottom: 10%;
   transform: translate(-50%, -50%);
   z-index: 1000;
   text-align: center;
@@ -231,18 +227,10 @@ body.dark-mode dialog {
   background-color: #444;
 }
 
-dialog form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-}
-
 .form-group {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   margin-bottom: 10px;
 }
 
@@ -256,8 +244,7 @@ body.dark-mode .form-group label {
   color: var(--text-color-dark);
 }
 
-.form-group input[type="text"],
-.form-group input[type="date"],
+.form-group input,
 .form-group select {
   width: 100%;
   padding: 10px;
@@ -269,46 +256,12 @@ body.dark-mode .form-group label {
   color: var(--text-color-light);
 }
 
-body.dark-mode .form-group input[type="text"],
-body.dark-mode .form-group input[type="date"],
+body.dark-mode .form-group input,
 body.dark-mode .form-group select {
   background-color: #555;
   color: var(--text-color-dark);
 }
 
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-dialog button {
-  flex: 1;
-  margin: 5px;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-dialog button[type="submit"] {
-  background-color: var(--button-background-light);
-  color: white;
-}
-
-body.dark-mode dialog button[type="submit"] {
-  background-color: var(--button-background-dark);
-}
-
-dialog button[type="button"] {
-  background-color: #f44336;
-  color: white;
-}
-
-dialog button:hover {
-  opacity: 0.8;
-}
 .notification {
   position: fixed;
   bottom: 20px;
@@ -317,9 +270,7 @@ dialog button:hover {
   color: #fff;
   padding: 15px;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  transition: opacity 0.5s;
 }
 
 .close-button {
@@ -327,3 +278,8 @@ dialog button:hover {
   font-weight: bold;
   cursor: pointer;
 }
+.alig-center{
+  display: flex;
+  padding-left: 8px;
+}
+

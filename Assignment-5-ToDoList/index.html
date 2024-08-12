@@ -10,18 +10,17 @@
 
 <body>
     <div class="container">
-        <div class="button-group">
-            <h1 class="padding_bottom">To-do List</h1>
+        <div class="input-group">
+            <h1>To-do List</h1>
             <button id="exportButton">Export Tasks</button>
             <button id="importButton">Import Tasks</button>
             <input type="file" id="importFileInput" accept=".json" style="display: none;">
         </div>
-        <br>
         <div class="input-group">
-            <button class="addButton" id="add">Add Task</button>
-            <button class="removeButton" id="remall">&#128465;</button>
+            <button class="addRemoveButton" id="add">Add Task</button>
+            <button class="addRemoveButton" id="remall">&#128465;</button>
         </div>
-        <div class="search-theme-group">
+        <div class="input-group">
             <input type="text" id="searchbox" placeholder="Search tasks...">
             <select id="filterDropdown">
                 <option value="all">All</option>
@@ -103,7 +102,7 @@
             </div>
         </form>
     </dialog>
-
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

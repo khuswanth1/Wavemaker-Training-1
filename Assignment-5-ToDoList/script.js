@@ -1,12 +1,7 @@
 let addToDoButton = document.getElementById("add");
-let toDoContainer = document.getElementById("todoscontainer");
 let removeAll = document.getElementById("remall");
-let editDialog = document.getElementById("editDialog");
-let editInput = document.getElementById("editInput");
-let editDueDateInput = document.getElementById("editDueDateInput");
-let editDueTimeInput = document.getElementById("editDueTimeInput");
-let editPriorityInput = document.getElementById("editPriorityInput");
-let cancelEditButton = document.getElementById("cancelEdit");
+let toDoContainer = document.getElementById("todoscontainer");
+
 let addTaskDialog = document.getElementById("addTaskDialog");
 let taskInput = document.getElementById("taskInput");
 let dueDateInput = document.getElementById("dueDateInput");
@@ -14,16 +9,64 @@ let dueTimeInput = document.getElementById("dueTimeInput");
 let priorityInput = document.getElementById("priorityInput");
 let saveTaskButton = document.getElementById("saveTask");
 let cancelTaskButton = document.getElementById("cancelTask");
+
+let editDialog = document.getElementById("editDialog");
+let editInput = document.getElementById("editInput");
+let editDueDateInput = document.getElementById("editDueDateInput");
+let editDueTimeInput = document.getElementById("editDueTimeInput");
+let editPriorityInput = document.getElementById("editPriorityInput");
+let cancelEditButton = document.getElementById("cancelEdit");
+
 let addSubtaskDialog = document.getElementById("addSubtaskDialog");
 let subtaskInput = document.getElementById("subtaskInput");
 let saveSubtaskButton = document.getElementById("saveSubtask");
 let cancelSubtaskButton = document.getElementById("cancelSubtask");
+
 let searchField = document.getElementById("searchbox");
 let filterDropdown = document.getElementById("filterDropdown");
 let themeToggleButton = document.getElementById("themeToggle");
+
 let taskArr = [];
-let currentEditIndex = null;
 let currentTaskIndex = null;
+
+function generateId() {
+    return 'id-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+}
+
+function sortTasks(tasksArray, sortBy) {
+    return tasksArray.sort((a, b) => {
+        if (sortBy === 'priority') {
+            const priorityOrder = { 
+                'high': 1, 
+                'medium': 2,
+                'low': 3 
+            };
+            return priorityOrder[a.priority] - priorityOrder[b.priority];
+        } else if (sortBy === 'dueDate') {
+            const dateA = new Date(a.dueDate + ' ' + a.dueTime);
+            const dateB = new Date(b.dueDate + ' ' + b.dueTime);
+            return dateA - dateB;
+        } else {
+            return 0;
+        }
+    });
+}
+
+filterDropdown.addEventListener('change', (e) => {
+    if (e.target.value === "date") {
+        sortTasks(taskArr, 'dueDate');
+    } else {
+        sortTasks(taskArr, 'priority');
+    }
+    saveToLocalStorage();
+    toDoContainer.innerHTML = "";
+    taskArr.forEach(task => {
+        addToContainer(task.task, task.dueDate, task.dueTime, task.priority, task.subTasks, task.check, task.id);
+    });
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+});
 
 let exportButton = document.getElementById("exportButton");
 let importButton = document.getElementById("importButton");
@@ -37,98 +80,86 @@ function loadFromLocalStorage() {
     taskArr = JSON.parse(localStorage.getItem("tasks")) || [];
 }
 
-function desktopcheck() {
-    return window.innerWidth > 768;
-}
-
-function generateId() {
-    return '_' + Math.random().toString(36).substr(2, 9);
-}
-
-function addToContainer(value, dueDate, dueTime, priority, subtasks = [], flag, id = generateId()) {
+function addToContainer(value, dueDate, dueTime, priority, subtasks = [], flag, id) {
     var taskContainer = document.createElement('div');
-    taskContainer.classList.add('task-container');
-    taskContainer.setAttribute('draggable', true);
+    taskContainer.classList.add('task-container', priority);
 
     var taskMain = document.createElement('div');
     taskMain.classList.add('task-main');
 
-    var paragraph = document.createElement('span');
-    var dueDateSpan = document.createElement('span');
-    var remove = document.createElement('span');
-    var edit = document.createElement('span');
-    var tickMark = document.createElement('span');
-    var addSubtask = document.createElement('span');
-    var subtasksContainer = document.createElement('div');
-    subtasksContainer.className = "subtasks";
+    var taskDetails = document.createElement('div');
+    taskDetails.classList.add('task-details');
 
-    paragraph.className = "paragraph-styling";
-    paragraph.innerText = value;
-    paragraph.dataset.id = id;
+    var taskName = document.createElement('div');
+    taskName.classList.add('task-name');
+    taskName.innerText = value;
 
-    dueDateSpan.className = "due-date-styling";
-    dueDateSpan.innerText = `${dueDate} ${dueTime}`;
+    var dueDateTime = document.createElement('div');
+    dueDateTime.classList.add('due-date-time');
 
+    var dueDateDiv = document.createElement('div');
+    dueDateDiv.innerText = dueDate;
+
+    var dueTimeDiv = document.createElement('div');
+    dueTimeDiv.innerText = dueTime;
+
+    dueDateTime.appendChild(dueDateDiv);
+    dueDateTime.appendChild(dueTimeDiv);
+
+    taskDetails.appendChild(taskName);
+    taskDetails.appendChild(dueDateTime);
+
+    var actions = document.createElement('div');
+    actions.classList.add('actions');
+
+    var tickMark = document.createElement('div');
     tickMark.innerHTML = "✔";
-    remove.innerHTML = "&#128465;";
-    edit.innerHTML = "✎";
-    addSubtask.innerHTML = "+ Subtask";
-    addSubtask.classList.add("add-subtask");
+    tickMark.classList.add('view-edit-delete');
 
-    taskMain.appendChild(paragraph);
-    taskMain.appendChild(dueDateSpan);
-    taskMain.appendChild(edit);
-    taskMain.appendChild(remove);
-    taskMain.appendChild(tickMark);
+    var edit = document.createElement('div');
+    edit.innerHTML = "✎";
+    edit.classList.add('view-edit-delete');
+
+    var remove = document.createElement('div');
+    remove.innerHTML = "&#128465;";
+    remove.classList.add('view-edit-delete');
+
+    actions.appendChild(tickMark);
+    actions.appendChild(edit);
+    actions.appendChild(remove);
+
+    taskMain.appendChild(taskDetails);
+    taskMain.appendChild(actions);
+
+    var subtasksContainer = document.createElement('div');
+    subtasksContainer.classList.add('subtasks');
+
+    subtasks.forEach(subtask => {
+        addSubtaskToContainer(subtasksContainer, subtask.text, subtask.checked, id);
+    });
+
+    var addSubtask = document.createElement('div');
+    addSubtask.classList.add('add-subtask');
+    addSubtask.innerHTML = "+ Subtask";
+    addSubtask.addEventListener('click', function () {
+        currentTaskIndex = taskArr.findIndex((e) => e.id === id);
+        addSubtaskDialog.showModal();
+    });
 
     taskContainer.appendChild(taskMain);
-    taskContainer.appendChild(addSubtask);
     taskContainer.appendChild(subtasksContainer);
-
-    switch (priority) {
-        case 'high':
-            taskContainer.style.backgroundColor = 'var(--priority-high)';
-            break;
-        case 'medium':
-            taskContainer.style.backgroundColor = 'var(--priority-medium)';
-            break;
-        case 'low':
-            taskContainer.style.backgroundColor = 'var(--priority-low)';
-            break;
-    }
+    taskContainer.appendChild(addSubtask);
 
     toDoContainer.appendChild(taskContainer);
 
-    let obj = {
-        id: id,
-        task: value.trim(),
-        dueDate: dueDate,
-        dueTime: dueTime,
-        priority: priority,
-        check: flag,
-        subTasks: subtasks
-    };
-
-    tickMark.classList = "tick-styling";
-    remove.classList = "remove-styling";
-    edit.classList = "edit-styling";
-
-    if (desktopcheck()) {
-        tickMark.classList.toggle('tick-hover');
-        remove.classList.toggle('remove-hover');
-        edit.classList.toggle('edit-hover');
-    }
-
-    paragraph.style.paddingLeft = "20px";
-
     tickMark.addEventListener('click', function () {
-        let taskIndex = taskArr.findIndex((e) => e.id === paragraph.dataset.id);
-        if (paragraph.style.textDecoration === "line-through") {
-            paragraph.style.textDecoration = "none";
+        let taskIndex = taskArr.findIndex((e) => e.id === id);
+        if (taskName.style.textDecoration === "line-through") {
+            taskName.style.textDecoration = "none";
             tickMark.innerHTML = "✔";
             taskArr[taskIndex].check = false;
         } else {
-            paragraph.style.textDecoration = "line-through";
+            taskName.style.textDecoration = "line-through";
             tickMark.innerHTML = "&#x238C";
             taskArr[taskIndex].check = true;
         }
@@ -136,71 +167,38 @@ function addToContainer(value, dueDate, dueTime, priority, subtasks = [], flag, 
     });
 
     edit.addEventListener('click', function () {
-        currentEditIndex = taskArr.findIndex((e) => e.id === paragraph.dataset.id);
-        editInput.value = paragraph.innerText;
+        editInput.value = value;
         editDueDateInput.value = dueDate;
         editDueTimeInput.value = dueTime;
         editPriorityInput.value = priority;
+        currentEditIndex = taskArr.findIndex((e) => e.id === id);
         editDialog.showModal();
     });
 
     remove.addEventListener('click', function () {
+        currentEditIndex = taskArr.findIndex((e) => e.id === id);
         toDoContainer.removeChild(taskContainer);
-
         if (currentEditIndex >= 0) {
             taskArr.splice(currentEditIndex, 1);
             currentEditIndex = null;
         }
         saveToLocalStorage();
     });
-
-    addSubtask.addEventListener('click', function () {
-        currentTaskIndex = taskArr.findIndex((e) => e.id === paragraph.dataset.id);
-        addSubtaskDialog.showModal();
-    });
-
-    taskContainer.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('text/plain', taskArr.indexOf(obj));
-        taskContainer.classList.add('dragging');
-    });
-
-    taskContainer.addEventListener('dragend', () => {
-        taskContainer.classList.remove('dragging');
-    });
-
-    toDoContainer.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        const afterElement = getDragAfterElement(toDoContainer, e.clientY);
-        const draggable = document.querySelector('.dragging');
-        if (afterElement == null) {
-            toDoContainer.appendChild(draggable);
-        } else {
-            toDoContainer.insertBefore(draggable, afterElement);
-        }
-    });
-
-    subtasks.forEach((subtask) => {
-        addSubtaskToContainer(subtasksContainer, subtask.text, subtask.checked);
-    });
-
-    if (flag) {
-        tickMark.click();
-    }
-
-    scheduleReminder(obj);
 }
 
-function addSubtaskToContainer(subtasksContainer, subtaskText, isChecked) {
+function addSubtaskToContainer(subtasksContainer, subtaskText, isChecked, parentTaskId) {
     const subtaskContainer = document.createElement('div');
     subtaskContainer.classList.add('subtask-container');
 
-    const subtaskParagraph = document.createElement('span');
-    const subtaskTick = document.createElement('span');
-    const subtaskRemove = document.createElement('span');
+    const subtaskParagraph = document.createElement('div');
+    const subtaskTick = document.createElement('div');
+    const subtaskRemove = document.createElement('div');
 
     subtaskParagraph.innerText = subtaskText;
     subtaskTick.innerHTML = "✔";
     subtaskRemove.innerHTML = "&#128465;";
+    subtaskTick.classList.add('view-edit-delete');
+    subtaskRemove.classList.add('view-edit-delete');
 
     if (isChecked) {
         subtaskParagraph.style.textDecoration = "line-through";
@@ -208,63 +206,39 @@ function addSubtaskToContainer(subtasksContainer, subtaskText, isChecked) {
     }
 
     subtaskTick.addEventListener('click', function () {
+        let taskIndex = taskArr.findIndex((e) => e.id === parentTaskId);
+        let subtaskIndex = taskArr[taskIndex].subTasks.findIndex(st => st.text === subtaskText);
         if (subtaskParagraph.style.textDecoration === "line-through") {
             subtaskParagraph.style.textDecoration = "none";
             subtaskTick.innerHTML = "✔";
+            taskArr[taskIndex].subTasks[subtaskIndex].checked = false;
         } else {
             subtaskParagraph.style.textDecoration = "line-through";
             subtaskTick.innerHTML = "&#x238C";
+            taskArr[taskIndex].subTasks[subtaskIndex].checked = true;
         }
-        updateSubtaskStatus(subtaskParagraph.innerText, currentTaskIndex);
+        saveToLocalStorage();
     });
 
     subtaskRemove.addEventListener('click', function () {
+        let taskIndex = taskArr.findIndex((e) => e.id === parentTaskId);
+        let subtaskIndex = taskArr[taskIndex].subTasks.findIndex(st => st.text === subtaskText);
+        if (subtaskIndex >= 0) {
+            taskArr[taskIndex].subTasks.splice(subtaskIndex, 1);
+            saveToLocalStorage();
+        }
         subtasksContainer.removeChild(subtaskContainer);
-        removeSubtask(subtaskParagraph.innerText, currentTaskIndex);
     });
-
+    subtaskContainer.classList.add('alig-center');
     subtaskContainer.appendChild(subtaskTick);
     subtaskContainer.appendChild(subtaskParagraph);
     subtaskContainer.appendChild(subtaskRemove);
     subtasksContainer.appendChild(subtaskContainer);
 }
 
-function updateSubtaskStatus(subtaskText, taskIndex) {
-    const subtaskIndex = taskArr[taskIndex].subTasks.findIndex(subtask => subtask.text === subtaskText);
-    if (subtaskIndex >= 0) {
-        taskArr[taskIndex].subTasks[subtaskIndex].checked = !taskArr[taskIndex].subTasks[subtaskIndex].checked;
-        saveToLocalStorage();
-    }
-}
-
-function removeSubtask(subtaskText, taskIndex) {
-    const subtaskIndex = taskArr[taskIndex].subTasks.findIndex(subtask => subtask.text === subtaskText);
-    if (subtaskIndex >= 0) {
-        taskArr[taskIndex].subTasks.splice(subtaskIndex, 1);
-        saveToLocalStorage();
-    }
-}
-
-function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll('.task-container:not(.dragging)')];
-
-    return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child };
-        } else {
-            return closest;
-        }
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
-}
-
 window.onload = function loadAgain() {
     loadFromLocalStorage();
-    if (!desktopcheck()) {
-        addToDoButton.className = "addMobile";
-        removeAll.className = "removeMobile";
-    }
+    taskArr = sortTasks(taskArr,"priority");
     taskArr.forEach(task => {
         addToContainer(task.task, task.dueDate, task.dueTime, task.priority, task.subTasks, task.check, task.id);
     });
@@ -272,6 +246,19 @@ window.onload = function loadAgain() {
     if (localStorage.getItem("theme") === "dark") {
         document.body.classList.add("dark-mode");
     }
+
+    new Sortable(toDoContainer, {
+        animation: 150,
+        onEnd: function (evt) {
+            const oldIndex = evt.oldIndex;
+            const newIndex = evt.newIndex;
+            if (oldIndex !== newIndex) {
+                const movedTask = taskArr.splice(oldIndex, 1)[0];
+                taskArr.splice(newIndex, 0, movedTask);
+                saveToLocalStorage();
+            }
+        }
+    });
 }
 
 addToDoButton.addEventListener('click', function () {
@@ -297,9 +284,8 @@ saveTaskButton.addEventListener('click', function () {
             subTasks: []
         };
         taskArr.push(newTask);
+        addToContainer(newTask.task, newTask.dueDate, newTask.dueTime, newTask.priority, newTask.subTasks, newTask.check, newTask.id);
         saveToLocalStorage();
-        sortAndDisplayTasks();
-        scheduleReminder(newTask);
         
         taskInput.value = "";
         dueDateInput.value = "";
@@ -314,12 +300,6 @@ removeAll.addEventListener('click', function () {
         toDoContainer.innerHTML = "";
         taskArr = [];
         saveToLocalStorage();
-    }
-});
-
-document.addEventListener('keypress', (e) => {
-    if (e.key === "Enter" && document.activeElement === taskInput) {
-        saveTaskButton.click();
     }
 });
 
@@ -339,9 +319,15 @@ editDialog.querySelector('form').addEventListener('submit', function (e) {
             taskArr[currentEditIndex].dueDate = newDueDate;
             taskArr[currentEditIndex].dueTime = newDueTime;
             taskArr[currentEditIndex].priority = newPriority;
+
             saveToLocalStorage();
-            sortAndDisplayTasks();
-            scheduleReminder(taskArr[currentEditIndex]);
+            toDoContainer.innerHTML = "";
+            taskArr.forEach(task => {
+                addToContainer(task.task, task.dueDate, task.dueTime, task.priority, task.subTasks, task.check, task.id);
+            });
+            if (localStorage.getItem("theme") === "dark") {
+                document.body.classList.add("dark-mode");
+            }
         }
     }
     editDialog.close();
@@ -362,56 +348,21 @@ saveSubtaskButton.addEventListener('click', function () {
     } else {
         taskArr[currentTaskIndex].subTasks.push({ text: subtaskValue, checked: false });
         saveToLocalStorage();
-        sortAndDisplayTasks();
         subtaskInput.value = "";
         addSubtaskDialog.close();
+        toDoContainer.innerHTML = "";
+        taskArr.forEach(task => {
+            addToContainer(task.task, task.dueDate, task.dueTime, task.priority, task.subTasks, task.check, task.id);
+        });
+        if (localStorage.getItem("theme") === "dark") {
+            document.body.classList.add("dark-mode");
+        }
     }
 });
 
 cancelSubtaskButton.addEventListener('click', function () {
     addSubtaskDialog.close();
 });
-
-searchField.addEventListener('input', function () {
-    let searchValue = searchField.value.toLowerCase().trim();
-    filterTasks(searchValue);
-});
-
-filterDropdown.addEventListener('change', function () {
-    sortAndDisplayTasks();
-});
-
-function sortAndDisplayTasks() {
-    const filterType = filterDropdown.value;
-    let priorityQueue = [...taskArr];
-
-    if (filterType === 'date') {
-        priorityQueue.sort((a, b) => new Date(`${a.dueDate}T${a.dueTime}`) - new Date(`${b.dueDate}T${b.dueTime}`));
-    } else if (filterType === 'priority') {
-        const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
-        priorityQueue.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-    }
-
-    toDoContainer.innerHTML = "";
-    priorityQueue.forEach(task => {
-        addToContainer(task.task, task.dueDate, task.dueTime, task.priority, task.subTasks, task.check, task.id);
-    });
-}
-
-function filterTasks(searchValue) {
-    let tasks = document.querySelectorAll('.task-container');
-
-    tasks.forEach(task => {
-        let taskText = task.querySelector('.paragraph-styling').innerText.toLowerCase();
-        let matchSearch = taskText.includes(searchValue);
-
-        if (matchSearch) {
-            task.style.display = '';
-        } else {
-            task.style.display = 'none';
-        }
-    });
-}
 
 themeToggleButton.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
@@ -421,6 +372,25 @@ themeToggleButton.addEventListener("click", () => {
 exportButton.addEventListener('click', () => {
     exportToJSON();
 });
+
+searchField.addEventListener('input', function () {
+    let searchValue = searchField.value.toLowerCase().trim();
+    filterTasks(searchValue);
+});
+
+function filterTasks(searchValue) {
+    let tasks = document.querySelectorAll('.task-container');
+    tasks.forEach(task => {
+        let taskText = task.querySelector('.task-name').innerText.toLowerCase();
+        let matchSearch = taskText.includes(searchValue);
+
+        if (matchSearch) {
+            task.style.display = '';
+        } else {
+            task.style.display = 'none';
+        }
+    });
+}
 
 function exportToJSON() {
     const dataStr = JSON.stringify(taskArr, null, 2);
@@ -449,8 +419,8 @@ importFileInput.addEventListener('change', (event) => {
                 if (Array.isArray(data)) {
                     taskArr = data;
                     saveToLocalStorage();
-                    sortAndDisplayTasks();
-                    data.forEach(task => scheduleReminder(task));
+                    toDoContainer.innerHTML = "";
+                    loadAgain();
                 } else {
                     alert('Invalid file format. Please upload a valid JSON file.');
                 }
@@ -463,36 +433,3 @@ importFileInput.addEventListener('change', (event) => {
         alert('Please upload a valid JSON file.');
     }
 });
-
-function scheduleReminder(task) {
-    const taskDateTime = new Date(`${task.dueDate}T${task.dueTime}`);
-    const now = new Date();
-    const timeToReminder = taskDateTime - now - 15 * 60 * 1000; 
-
-    if (timeToReminder > 0) {
-        setTimeout(() => {
-            showNotification(`Reminder: ${task.task} is due in 15 min`);
-        }, timeToReminder);
-    }
-}
-
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.innerText = message;
-
-    const closeButton = document.createElement('span');
-    closeButton.className = 'close-button';
-    closeButton.innerText = '×';
-    closeButton.onclick = () => notification.remove();
-
-    notification.appendChild(closeButton);
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        setTimeout(() => {
-            notification.remove();
-        }, 500);
-    }, 15000); 
-}

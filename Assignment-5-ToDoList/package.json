@@ -1,0 +1,13 @@
+{
+  "name": "assignment-5-todolist",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "start": "http-server -c-1 -o",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tony@Maheshs-MB Assignment-5-ToDoList % npm init y",
+  "license": "ISC",
+  "keywords": [],
+  "description": ""
+}
