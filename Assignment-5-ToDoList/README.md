@@ -4,7 +4,7 @@
 
 ## Pending Tasks
 
-1. **Sub-task Priority and Dragging:**
+1. **Sub-task Priority, Dragging, Search Subtask**
 
 2. **Custom Time Notification I kept default notification as 15min**  
 
