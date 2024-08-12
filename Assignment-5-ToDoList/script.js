@@ -103,6 +103,15 @@ function addToContainer(value, dueDate, dueTime, priority, subtasks = [], flag, 
     var dueTimeDiv = document.createElement('div');
     dueTimeDiv.innerText = dueTime;
 
+    let currentTime = new Date();
+    let taskDate = new Date(`${dueDate} ${dueTime}`);
+    let timeDiff = taskDate-currentTime;
+    let min15 = 15*60*1000;
+    if(timeDiff>0 && timeDiff<= min15){
+        console.log("CHekc");
+        notifyMe();
+    }
+
     dueDateTime.appendChild(dueDateDiv);
     dueDateTime.appendChild(dueTimeDiv);
 
@@ -433,3 +442,17 @@ importFileInput.addEventListener('change', (event) => {
         alert('Please upload a valid JSON file.');
     }
 });
+
+function notifyMe() {
+    if (!("Notification" in window)) {
+      alert("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+        const notification = new Notification("A task is due soon..!");
+    } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+          const notification = new Notification("A task is due soon..");
+        }
+      });
+    }
+  }
