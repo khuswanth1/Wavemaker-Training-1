@@ -6,5 +6,6 @@
 
 1. **Sub-task Priority and Dragging:**
 
-2. **Custom Time Notification I kept default notification as 15min**
+2. **Custom Time Notification I kept default notification as 15min**  
 
+3. **Time Validation**
