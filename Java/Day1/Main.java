@@ -28,17 +28,19 @@ class GuessNumber {
 }
 public class Main {
     public static void main(String[] args) {
-        // Employee e1 = new Employee(1,"Mahesh");
-        // Employee e2 = new Employee(2,"Chakri");
+        Employee e1 = new Employee(1,"Mahesh");
+        Employee e2 = new Employee(2,"Mahesh");
         
-        // ArrayList<Employee> al = new ArrayList<>();
-        // al.add(e1);
-        // al.add(e2);
+        ArrayList<Employee> al = new ArrayList<>();
+        al.add(e1);
+        al.add(e2);
 
-        HashMap<Integer,String> hm = new HashMap<>();
-        hm.put(1,"e1");
-        hm.put(2,"e2");
-        System.out.println(hm.size());
+        System.out.println("HEllo "+e1.equals(e2));
+
+        // HashMap<Integer,String> hm = new HashMap<>();
+        // hm.put(1,"e1");
+        // hm.put(2,"e2");
+        // System.out.println(hm.size());
         // guessNumber();
         // calculator();
         // allPrimitiveDataTypes();

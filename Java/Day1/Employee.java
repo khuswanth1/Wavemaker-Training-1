@@ -17,5 +17,9 @@ public class Employee {
     public void setEmpName(String empName) {
         this.empName = empName;
     }
+    @Override
+    public boolean equals(Object obj) {
+        return this.empName == ((Employee)obj).empName;
+    }
 
 }
