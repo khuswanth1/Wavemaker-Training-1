@@ -1,19 +1,21 @@
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
 class Calculator {
-    public int add(int a,int b){
+    public Integer add(Integer a,Integer b){
         return a+b;
     }
-    public int sub(int a, int b){
+    public Integer sub(Integer a, Integer b){
         return a-b;
     }
-    public int multiply(int a,int b){
+    public Integer multiply(Integer a,Integer b){
         return a*b;
     }
-    public int divide(int a,int b){
+    public Integer divide(Integer a,Integer b){
         return a/b;
     }
 }
@@ -26,9 +28,20 @@ class GuessNumber {
 }
 public class Main {
     public static void main(String[] args) {
-//        guessNumber();
-        calculator();
-        allPrimitiveDataTypes();
+        // Employee e1 = new Employee(1,"Mahesh");
+        // Employee e2 = new Employee(2,"Chakri");
+        
+        // ArrayList<Employee> al = new ArrayList<>();
+        // al.add(e1);
+        // al.add(e2);
+
+        HashMap<Integer,String> hm = new HashMap<>();
+        hm.put(1,"e1");
+        hm.put(2,"e2");
+        System.out.println(hm.size());
+        // guessNumber();
+        // calculator();
+        // allPrimitiveDataTypes();
     }
     public static void allPrimitiveDataTypes(){
         byte b=10;
@@ -48,33 +61,41 @@ public class Main {
     }
     public static void calculator(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter 1st Number: ");
-        int input1 = sc.nextInt();
-        System.out.println("Enter 2nd Number: ");
-        int input2 = sc.nextInt();
-        Calculator obj = new Calculator();
-        System.out.println("What operation you want to perform ");
-        System.out.println("Enter 1 for Add");
-        System.out.println("Enter 2 for Sub");
-        System.out.println("Enter 3 for Mul");
-        System.out.println("Enter 4 for Div");
-        int operation = sc.nextInt();
-        switch (operation){
-            case 1:
+        try{
+
+            System.out.println("Enter 1st Number: ");
+            Integer input1 = sc.nextInt();
+            if(input1==0) throw new ManualExc("Enter The Valid Number");
+            System.out.println("Enter 2nd Number: ");
+            Integer input2 = sc.nextInt();
+            if(input2==0) throw new ManualExc("Enter The Valid Number");
+            Calculator obj = new Calculator();
+            System.out.println("What operation you want to perform ");
+            System.out.println("Enter 1 for Add");
+            System.out.println("Enter 2 for Sub");
+            System.out.println("Enter 3 for Mul");
+            System.out.println("Enter 4 for Div");
+            int operation = sc.nextInt();
+            switch (operation){
+                case 1:
                 System.out.println("Sum : "+obj.add(input1,input2));
                 break;
-            case 2:
+                case 2:
                 System.out.println("Diff : "+obj.sub(input1,input2));
                 break;
-            case 3:
+                case 3:
                 System.out.println("Multiply : "+obj.multiply(input1,input2));
                 break;
-            case 4:
+                case 4:
                 System.out.println("Divide : "+obj.divide(input1,input2));
                 break;
+            }
         }
-
-    }
+        catch(Exception e){
+            System.out.println(e);
+        }
+            
+        }
     public static void guessNumber(){
         Scanner sc = new Scanner(System.in);
         GuessNumber obj = new GuessNumber();

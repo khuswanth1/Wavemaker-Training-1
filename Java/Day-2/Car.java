@@ -15,4 +15,7 @@ public class Car implements Vehicle{
     public void milage(){
         System.out.println("16 kmph");
     }
+    public void fuel(){
+        System.out.println("Diseal");
+    }
 }

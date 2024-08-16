@@ -4,5 +4,7 @@ public interface Vehicle {
     void price();
     void maxSpeed();
     void milage();
+    void fuel();
+    
 
 } 

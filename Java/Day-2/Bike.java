@@ -15,4 +15,7 @@ public class Bike implements Vehicle{
     public void milage(){
         System.out.println("50 kmph");
     }
+    public void fuel(){
+        System.out.print("Petrol");;
+    }
 }
